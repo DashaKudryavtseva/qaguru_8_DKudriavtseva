@@ -69,6 +69,16 @@ class TestCart:
         cart.remove_product(product)
         assert len(cart.products) == 0
 
+    def test_cart_remove_equal_quantity(self, cart, product):
+        cart.add_product(product, 200)
+        cart.remove_product(product, 200)
+        assert len(cart.products) == 0
+
+    def test_cart_remove_over_quantity(self, cart, product):
+        cart.add_product(product, 200)
+        cart.remove_product(product, 210)
+        assert len(cart.products) == 0
+
     def test_cart_clear(self, cart):
         table = Product("table", 150, "This is a table", 5000)
         chair = Product("chair", 300, "This is a chair", 4500)
