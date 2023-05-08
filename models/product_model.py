@@ -52,16 +52,10 @@ class Cart:
         Метод добавления продукта в корзину.
         Если продукт уже есть в корзине, то увеличиваем количество
         """
-        if not self.products:
-            self.products.update({product: quantity})
+        if product in self.products:
+            self.products[product] += quantity
         else:
-            for key, value in self.products.items():
-                if key == product:
-                    self.products[key] = value + quantity
-                    break
-                else:
-                    self.products.update({product: quantity})
-                    break
+            self.products[product] = quantity
 
     def remove_product(self, product: Product, quantity=None):
         """
@@ -69,14 +63,11 @@ class Cart:
         Если quantity не передан, то удаляется вся позиция
         Если quantity больше, чем количество продуктов в позиции, то удаляется вся позиция
         """
-        if self.products:
-            for key, value in self.products.items():
-                if key == product and quantity is None or quantity > value:
-                    self.products.pop(product)
-                    break
-                elif key == product:
-                    self.products[key] = value - quantity
-                    break
+        if product in self.products:
+            if quantity is None or quantity >= self.products[product]:
+                self.products.pop(product)
+            else:
+                self.products[product] -= quantity
         else:
             raise ValueError
 
